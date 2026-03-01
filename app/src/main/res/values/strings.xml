@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">LoginScreen</string>
+    <string name="welcome">Hello</string>
+    <string name="Welcome_msg">Welcome To Little Drop, where you manage your daily tasks</string>
 </resources>

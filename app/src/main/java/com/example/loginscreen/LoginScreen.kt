@@ -28,10 +28,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
+import androidx.navigation.NavController
 
 
 @Composable
-fun loginScreenVisuals(innerPadding: PaddingValues, modifier: Modifier = Modifier)
+fun LoginScreenVisuals(navController: NavController, innerPadding: PaddingValues, modifier: Modifier = Modifier)
 {
     Column(
         modifier = Modifier
@@ -40,15 +41,15 @@ fun loginScreenVisuals(innerPadding: PaddingValues, modifier: Modifier = Modifie
             .fillMaxSize()
     )
     {
-        loginBackButton(modifier = Modifier)
+        loginBackButton(navController = navController, modifier = Modifier)
         loginTitle(modifier = Modifier)
         loginTextFields(modifier = Modifier)
-        loginButtons(modifier = Modifier)
+        loginButtons(navController = navController, modifier = Modifier)
     }
 }
 
 @Composable
-fun loginBackButton(modifier: Modifier = Modifier)
+fun loginBackButton(navController: NavController, modifier: Modifier = Modifier)
 {
     Row(
         modifier = Modifier
@@ -64,7 +65,9 @@ fun loginBackButton(modifier: Modifier = Modifier)
                     contentColor =  Color.Gray,
                     disabledContainerColor = Color.White
             ),
-            onClick = {})
+            onClick = {
+                navController.navigate(route = "welcome")
+            })
         {
             Text(
                 "←",
@@ -79,9 +82,6 @@ fun loginBackButton(modifier: Modifier = Modifier)
 @Composable
 fun loginTitle(modifier: Modifier = Modifier)
 {
-    /*Column con alineamiento central y extendida al maximo para texto centrado
-      con fondo blanco
-     */
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -94,9 +94,8 @@ fun loginTitle(modifier: Modifier = Modifier)
             ),
         horizontalAlignment = Alignment.CenterHorizontally)
     {
-        //Titulo "Hello"
         Text(
-            stringResource(R.string.Login_title),
+            text = stringResource(R.string.Login_title),
             fontSize = 48.sp,
             fontWeight = FontWeight.ExtraBold,
             fontFamily = FontFamily.SansSerif
@@ -155,7 +154,7 @@ fun loginTextFields(modifier: Modifier = Modifier)
 }
 
 @Composable
-fun loginButtons(modifier: Modifier = Modifier)
+fun loginButtons(navController: NavController, modifier: Modifier = Modifier)
 {
     Column(
         modifier = Modifier
@@ -167,9 +166,11 @@ fun loginButtons(modifier: Modifier = Modifier)
         Button(
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(15.dp))
+                .clip(RoundedCornerShape(30.dp))
                 .background(color = Color(82,78,172)),
-            onClick = {})
+            onClick = {
+                navController.navigate(route = "")
+            })
         {
             Text("Log In")
         }

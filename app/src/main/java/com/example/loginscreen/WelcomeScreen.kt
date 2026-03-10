@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,15 +27,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 
 @Composable
-fun WelcomeScreenVisuals (innerPadding: PaddingValues,modifier: Modifier = Modifier)
+fun WelcomeScreenVisuals (navController: NavController, innerPadding: PaddingValues,modifier: Modifier = Modifier)
 {
     Column(modifier = Modifier.padding(innerPadding))
     {
         WelcomeImage(modifier = Modifier)
         WelcomeMsg(modifier = Modifier)
-        WelcomeBtns(modifier = Modifier)
+        WelcomeBtns(navController = navController,modifier = Modifier)
     }
 }
 
@@ -79,7 +82,7 @@ fun WelcomeMsg (modifier: Modifier = Modifier)
 }
 
 @Composable
-fun WelcomeBtns (modifier: Modifier = Modifier)
+fun WelcomeBtns (navController: NavController, modifier: Modifier = Modifier)
 {
     //Column para establecer padding simulando margen
     Column(
@@ -96,24 +99,16 @@ fun WelcomeBtns (modifier: Modifier = Modifier)
         verticalArrangement = Arrangement.Center
     )
     {
-        //Box y Text para simular un botón de Login
-        Box(
-            modifier
+        Button(
+            modifier = Modifier
+                .fillMaxWidth()
                 .clip(RoundedCornerShape(30.dp))
-                .background(color = Color(82, 78, 172))
-                .requiredHeight(60.dp),
-            contentAlignment = Alignment.Center
-        )
+                .background(color = Color(82,78,172)),
+            onClick = {
+                navController.navigate(route = "login")
+            })
         {
-            Text(
-                "Login",
-                modifier
-                    .fillMaxWidth(),
-                color = Color.White,
-                fontWeight = FontWeight.Bold,
-                fontSize = 22.sp,
-                textAlign = TextAlign.Center
-            )
+            Text("Login")
         }
     }
     //Segundo column para establecer padding simulando un margen
@@ -126,28 +121,25 @@ fun WelcomeBtns (modifier: Modifier = Modifier)
         verticalArrangement = Arrangement.Center
     )
     {
-        //Box y Text para simular un botón de Sign Up
-        Box(
-            modifier
-                .clip(RoundedCornerShape(30.dp))
-                .background(color = Color.White)
-                .border(
-                    width = 3.dp,
-                    color = Color(82, 78, 172),
-                    shape = RoundedCornerShape(30.dp))
-                .requiredHeight(60.dp),
-            contentAlignment = Alignment.Center
-        )
-        {
-            Text(
-                "Login",
-                modifier
-                    .fillMaxWidth(),
+        Button(
+            modifier = Modifier
+            .clip(RoundedCornerShape(30.dp))
+            .fillMaxWidth()
+            .border(
+                width = 3.dp,
                 color = Color(82, 78, 172),
-                fontWeight = FontWeight.Bold,
-                fontSize = 22.sp,
-                textAlign = TextAlign.Center
-            )
+                shape = RoundedCornerShape(30.dp)),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.White,
+                contentColor =  Color(82,78,172),
+                disabledContainerColor = Color.White
+            ),
+            onClick = {
+                navController.navigate(route = "signup")
+            })
+        {
+            Text("Sign Up")
         }
+
     }
 }

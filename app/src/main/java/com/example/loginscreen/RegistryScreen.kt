@@ -28,9 +28,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 
 @Composable
-fun registryScreenVisuals(innerPadding: PaddingValues,modifier: Modifier = Modifier)
+fun RegistryScreenVisuals(navController: NavController, innerPadding: PaddingValues,modifier: Modifier = Modifier)
 {
     Column(
         modifier = Modifier
@@ -38,7 +39,7 @@ fun registryScreenVisuals(innerPadding: PaddingValues,modifier: Modifier = Modif
             .background(color = Color.White)
     )
     {
-        registryBackButton(modifier = Modifier)
+        registryBackButton(navController = navController, modifier = Modifier)
         registryTitle(modifier = Modifier)
         registryTextFields(modifier = Modifier)
         registryButtons(modifier = Modifier)
@@ -46,7 +47,7 @@ fun registryScreenVisuals(innerPadding: PaddingValues,modifier: Modifier = Modif
 }
 
 @Composable
-fun registryBackButton(modifier: Modifier = Modifier)
+fun registryBackButton(navController: NavController, modifier: Modifier = Modifier)
 {
     Row(
         modifier = Modifier
@@ -81,9 +82,6 @@ fun registryBackButton(modifier: Modifier = Modifier)
 @Composable
 fun registryTitle(modifier: Modifier = Modifier)
 {
-    /*Column con alineamiento central y extendida al maximo para texto centrado
-      con fondo blanco
-     */
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -96,7 +94,6 @@ fun registryTitle(modifier: Modifier = Modifier)
             ),
         horizontalAlignment = Alignment.CenterHorizontally)
     {
-        //Titulo "Hello"
         Text(
             stringResource(R.string.Registry_title),
             fontSize = 48.sp,
@@ -219,7 +216,7 @@ fun registryButtons(modifier: Modifier = Modifier)
         Button(
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(15.dp))
+                .clip(RoundedCornerShape(30.dp))
                 .background(color = Color(82,78,172)),
             onClick = {})
         {

@@ -2,4 +2,6 @@
     <string name="app_name">LoginScreen</string>
     <string name="welcome">Hello</string>
     <string name="Welcome_msg">Welcome To Little Drop, where you manage your daily tasks</string>
+    <string name="Login_title">Log In</string>
+    <string name="Registry_title">Sign Up</string>
 </resources>

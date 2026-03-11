@@ -27,6 +27,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavController
 
@@ -107,6 +108,7 @@ fun loginTitle(modifier: Modifier = Modifier)
 fun loginTextFields(modifier: Modifier = Modifier)
 {
     var userText by remember { mutableStateOf("") }
+    var passText by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -127,7 +129,6 @@ fun loginTextFields(modifier: Modifier = Modifier)
                     color = Color(82, 78, 172),
                     shape = RoundedCornerShape(15.dp)),
             singleLine = true
-
         )
     }
     Column(
@@ -138,7 +139,7 @@ fun loginTextFields(modifier: Modifier = Modifier)
     )
     {
         TextField(
-            value = userText,
+            value = passText,
             onValueChange = { newText -> userText = newText },
             label = { Text("Contraseña") },
             modifier = Modifier
@@ -148,7 +149,8 @@ fun loginTextFields(modifier: Modifier = Modifier)
                     width = 3.dp,
                     color = Color(82, 78, 172),
                     shape = RoundedCornerShape(15.dp)),
-            singleLine = true
+            singleLine = true,
+            visualTransformation = PasswordVisualTransformation()
         )
     }
 }

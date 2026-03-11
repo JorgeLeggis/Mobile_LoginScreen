@@ -29,6 +29,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import java.util.regex.Matcher
 
 @Composable
 fun RegistryScreenVisuals(navController: NavController, innerPadding: PaddingValues,modifier: Modifier = Modifier)
@@ -107,6 +108,16 @@ fun registryTitle(modifier: Modifier = Modifier)
 fun registryTextFields(modifier: Modifier = Modifier)
 {
     var userText by remember { mutableStateOf("") }
+    var emailText by remember { mutableStateOf("") }
+    var passText by remember { mutableStateOf("") }
+    var conPassText by remember { mutableStateOf("") }
+
+    var mailError by remember { mutableStateOf(false) }
+
+    fun validEmail(email: String): Boolean
+    {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
 
     Column(
         modifier = Modifier
@@ -117,8 +128,8 @@ fun registryTextFields(modifier: Modifier = Modifier)
     {
         TextField(
             value = userText,
-            onValueChange = { newText -> userText = newText },
-            label = { Text("Nombre de usuario") },
+            onValueChange = {userText = it},
+            label = { Text("Username") },
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(15.dp))
@@ -142,9 +153,12 @@ fun registryTextFields(modifier: Modifier = Modifier)
     )
     {
         TextField(
-            value = userText,
-            onValueChange = { newText -> userText = newText },
-            label = { Text("Correo electrónico") },
+            value = emailText,
+            isError = mailError,
+            onValueChange = {
+                emailText = it
+                mailError = !validEmail(email = it)},
+            label = { Text("Email") },
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(15.dp))
@@ -167,9 +181,9 @@ fun registryTextFields(modifier: Modifier = Modifier)
     )
     {
         TextField(
-            value = userText,
-            onValueChange = { newText -> userText = newText },
-            label = { Text("Contraseña") },
+            value = passText,
+            onValueChange = {passText = it},
+            label = { Text("Password") },
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(15.dp))
@@ -188,8 +202,8 @@ fun registryTextFields(modifier: Modifier = Modifier)
     )
     {
         TextField(
-            value = userText,
-            onValueChange = { newText -> userText = newText },
+            value = conPassText,
+            onValueChange = {conPassText = it},
             label = { Text("Confirmar contraseña") },
             modifier = Modifier
                 .fillMaxWidth()

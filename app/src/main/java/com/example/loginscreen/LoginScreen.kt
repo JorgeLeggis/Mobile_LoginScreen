@@ -171,7 +171,7 @@ fun loginButtons(navController: NavController, modifier: Modifier = Modifier)
                 .clip(RoundedCornerShape(30.dp))
                 .background(color = Color(82,78,172)),
             onClick = {
-                navController.navigate(route = "")
+                navController.navigate(route = "home")
             })
         {
             Text("Log In")

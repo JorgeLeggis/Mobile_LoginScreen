@@ -18,7 +18,7 @@ fun AppNavigation() {
     Scaffold { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = "welcome",
+            startDestination = "home",
             modifier = Modifier.padding(innerPadding)
         ) {
             composable("welcome") {
@@ -35,6 +35,12 @@ fun AppNavigation() {
             }
             composable("signup") {
                 RegistryScreenVisuals(
+                    navController = navController,
+                    innerPadding = innerPadding
+                )
+            }
+            composable("home") {
+                MainScreenVisuals(
                     navController = navController,
                     innerPadding = innerPadding
                 )

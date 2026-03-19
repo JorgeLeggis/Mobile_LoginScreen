@@ -43,7 +43,7 @@ fun RegistryScreenVisuals(navController: NavController, innerPadding: PaddingVal
         registryBackButton(navController = navController, modifier = Modifier)
         registryTitle(modifier = Modifier)
         registryTextFields(modifier = Modifier)
-        registryButtons(modifier = Modifier)
+        //registryButtons(modifier = Modifier)
     }
 }
 
@@ -89,7 +89,7 @@ fun registryTitle(modifier: Modifier = Modifier)
             .background(color = Color.White)
             .padding(
                 start = 50.dp,
-                top = 60.dp,
+                top = 10.dp,
                 end = 50.dp,
                 bottom = 50.dp
             ),
@@ -109,14 +109,58 @@ fun registryTextFields(modifier: Modifier = Modifier)
 {
     var userText by remember { mutableStateOf("") }
     var emailText by remember { mutableStateOf("") }
+    var telText by remember { mutableStateOf("") }
     var passText by remember { mutableStateOf("") }
     var conPassText by remember { mutableStateOf("") }
 
+    var userError by remember { mutableStateOf(false) }
     var mailError by remember { mutableStateOf(false) }
+    var telError by remember { mutableStateOf(false) }
+    var passError by remember { mutableStateOf(false) }
 
+    //Función para validar que solo se introduzcan letras
+    fun validUser(username: String): Boolean
+    {
+        val regex = Regex("^[a-zA-Z]+$")
+        return regex.matches(username)
+    }
+
+    //Función para validar que solo se introduzcan emails
     fun validEmail(email: String): Boolean
     {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
+
+    //Función para validar que solo se introduzcan numero de telefono
+    fun validTel(tel: String): Boolean
+    {
+        val regex = Regex("^[0-9]{10}$")
+        return regex.matches(tel)
+    }
+
+    //Función para validar que las contraseñas sean iguales
+    fun validPass(pass: String, conPass: String): Boolean
+    {
+        return pass == conPass
+    }
+
+    //Función para validar que todos los campos sean correctos y no esten vacios
+    fun validFields(
+        userText: String,
+        emailText: String,
+        telText: String,
+        passText: String,
+        conPassText: String,
+        userError: Boolean,
+        mailError: Boolean,
+        telError: Boolean,
+        passError: Boolean
+    ): Boolean
+    {
+        return userText.isNotBlank() && emailText.isNotBlank() &&
+                telText.isNotBlank() && passText.isNotBlank() &&
+                conPassText.isNotBlank() && !userError && !mailError &&
+                !telError && !passError && passText == conPassText
     }
 
     Column(
@@ -128,7 +172,11 @@ fun registryTextFields(modifier: Modifier = Modifier)
     {
         TextField(
             value = userText,
-            onValueChange = {userText = it},
+            isError = userError,
+            onValueChange = {
+                userText = it
+                userError = !validUser(username = it)
+                            },
             label = { Text("Username") },
             modifier = Modifier
                 .fillMaxWidth()
@@ -181,8 +229,41 @@ fun registryTextFields(modifier: Modifier = Modifier)
     )
     {
         TextField(
+            value = telText,
+            isError = telError,
+            onValueChange = {
+                telText = it
+                telError = !validTel(tel = it)
+                            },
+            label = { Text("Teléfono") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(15.dp))
+                .border(
+                    width = 3.dp,
+                    color = Color(82, 78, 172),
+                    shape = RoundedCornerShape(15.dp)),
+            singleLine = true
+        )
+    }
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(color = Color.White)
+            .padding(
+                start = 40.dp,
+                top = 40.dp,
+                end = 40.dp,
+                bottom = 0.dp)
+    )
+    {
+        TextField(
             value = passText,
-            onValueChange = {passText = it},
+            isError = passError,
+            onValueChange = {
+                passText = it
+                passError = !validPass(passText, conPassText)
+                            },
             label = { Text("Password") },
             modifier = Modifier
                 .fillMaxWidth()
@@ -203,8 +284,12 @@ fun registryTextFields(modifier: Modifier = Modifier)
     {
         TextField(
             value = conPassText,
-            onValueChange = {conPassText = it},
-            label = { Text("Confirmar contraseña") },
+            isError = passError,
+            onValueChange = {
+                conPassText = it
+                passError = !validPass(passText, conPassText)
+                            },
+            label = { Text("Confirm password") },
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(15.dp))
@@ -215,10 +300,29 @@ fun registryTextFields(modifier: Modifier = Modifier)
             singleLine = true
         )
     }
+    Column(
+        modifier = Modifier
+            .background(color = Color.White)
+            .fillMaxWidth()
+            .padding(40.dp)
+    )
+    {
+        Button(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(30.dp))
+                .background(color = Color(82,78,172)),
+            onClick = {},
+            enabled = validFields(userText, emailText, telText, passText,
+                conPassText, userError, mailError, telError, passError))
+        {
+            Text("Sign Up")
+        }
+    }
 }
-
+/*
 @Composable
-fun registryButtons(modifier: Modifier = Modifier)
+fun registryButtons(modifier: Modifier = Modifier, validFields: Boolean)
 {
     Column(
         modifier = Modifier
@@ -232,9 +336,12 @@ fun registryButtons(modifier: Modifier = Modifier)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(30.dp))
                 .background(color = Color(82,78,172)),
-            onClick = {})
+            onClick = {},
+            enabled = validFields)
         {
             Text("Sign Up")
         }
     }
 }
+
+*/
